@@ -1,0 +1,27 @@
+/*
+
+Professor Denis está curioso para saber se a classificação final de seus N alunos de programação competitiva segue a ordem de matrícula na universidade. Ele pediu a sua ajuda para, dada a classificação final, contar quantos pares (i, j) existem tais que i < j e m[i] > m[j], onde 1 ≤ i,j ≤ N e m[i] significa a matrícula do aluno que ficou em i-ésimo lugar.
+
+Entrada
+A entrada contém vários casos de teste.
+
+A primeira linha de um caso de teste contém um único inteiro N, que representa o número de alunos, onde 1 ≤ N ≤ 105.
+
+As próximas N linhas são a classificação final dos alunos. Cada linha contém uma cadeia de exatamente 10 caracteres.
+
+Saída
+Para cada caso de teste, imprima uma única linha com o número pedido na especificação.
+
+Exemplo de Entrada
+
+4
+12/0001111
+14/0001111
+11/0001111
+10/0001111
+
+Exemplo de Saída
+
+5
+
+*/

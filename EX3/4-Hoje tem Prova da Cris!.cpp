@@ -41,3 +41,63 @@ Instancia 4
 chegado thadeu wanderley
 
 */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int n, k;
+    int instance = 1;
+
+    while (cin >> n >> k && (n != 0 || k != 0))
+    {
+        vector<string> names(n);
+
+        // Lê os nomes
+        for (int i = 0; i < n; i++)
+        {
+            cin >> names[i];
+        }
+
+        int swaps_used = 0;
+
+        // Algoritmo guloso: para cada posição, tenta colocar o menor nome possível
+        for (int pos = 0; pos < n && swaps_used < k; pos++)
+        {
+            // Encontra o menor nome que pode ser movido para esta posição
+            int best_idx = pos;
+            for (int i = pos + 1; i < n && i <= pos + (k - swaps_used); i++)
+            {
+                if (names[i] < names[best_idx])
+                {
+                    best_idx = i;
+                }
+            }
+
+            // Move o menor nome para a posição atual usando bubble sort
+            while (best_idx > pos && swaps_used < k)
+            {
+                swap(names[best_idx], names[best_idx - 1]);
+                best_idx--;
+                swaps_used++;
+            }
+        }
+
+        // Imprime o resultado
+        cout << "Instancia " << instance << endl;
+        for (int i = 0; i < n; i++)
+        {
+            cout << names[i] << " ";
+        }
+        cout << endl
+             << endl;
+
+        instance++;
+    }
+
+    return 0;
+}

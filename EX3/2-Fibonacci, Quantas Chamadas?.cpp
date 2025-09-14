@@ -29,3 +29,43 @@ fib (5) = 14 calls = 5
 fib (4) = 8 calls = 3
 
 */
+
+#include <iostream>
+using namespace std;
+
+int num_calls;
+
+int fibonacci(int n)
+{
+    num_calls++;
+
+    if (n == 0)
+    {
+        return 0;
+    }
+    if (n == 1)
+    {
+        return 1;
+    }
+
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main()
+{
+    int N;
+    cin >> N;
+
+    for (int i = 0; i < N; i++)
+    {
+        int X;
+        cin >> X;
+
+        num_calls = -1;
+        int result = fibonacci(X);
+
+        cout << "fib(" << X << ") = " << num_calls << " calls = " << result << endl;
+    }
+
+    return 0;
+}

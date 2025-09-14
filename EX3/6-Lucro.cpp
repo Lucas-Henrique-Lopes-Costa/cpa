@@ -35,3 +35,43 @@ Exemplo de Saída
 0
 
 */
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int n;
+
+    while (cin >> n)
+    {
+        int custoPorDia;
+        cin >> custoPorDia;
+
+        vector<int> receitas(n);
+        vector<int> lucroLiquido(n);
+
+        // Lê as receitas e calcula o lucro líquido por dia
+        for (int i = 0; i < n; i++)
+        {
+            cin >> receitas[i];
+            lucroLiquido[i] = receitas[i] - custoPorDia;
+        }
+
+        // Algoritmo de Kadane para Maximum Subarray Sum
+        int maxLucro = 0; // Pode escolher 0 dias (lucro = 0)
+        int lucroAtual = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            lucroAtual = max(0, lucroAtual + lucroLiquido[i]);
+            maxLucro = max(maxLucro, lucroAtual);
+        }
+
+        cout << maxLucro << endl;
+    }
+
+    return 0;
+}

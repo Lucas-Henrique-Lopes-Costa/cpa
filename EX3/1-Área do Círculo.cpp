@@ -27,3 +27,20 @@ A=31819.3103
 
 A=70685.7750
 */
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+int main() {
+    double raio;
+    double pi = 3.14159;
+    cin >> raio;
+
+    double area = pi * pow(raio, 2);
+
+    cout << "A=" << fixed << setprecision(4) << area << endl;
+
+    return 0;
+}

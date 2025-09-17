@@ -33,21 +33,39 @@ fib (4) = 8 calls = 3
 #include <iostream>
 using namespace std;
 
+// Variável global para contar o número de chamadas recursivas
 int num_calls;
 
+/*
+ * ALGORITMO: Fibonacci Recursivo com Contagem de Chamadas
+ *
+ * Este algoritmo implementa a sequência de Fibonacci de forma recursiva:
+ * - fib(0) = 0 (caso base)
+ * - fib(1) = 1 (caso base)
+ * - fib(n) = fib(n-1) + fib(n-2) para n > 1 (caso recursivo)
+ *
+ * Complexidade: O(2^n) - exponencial, pois cada chamada gera duas novas chamadas
+ * Problema: Muitas recalculações desnecessárias (não usa memoização)
+ *
+ * A cada chamada da função, incrementamos num_calls para contar quantas
+ * chamadas recursivas foram necessárias para calcular o resultado.
+ */
 int fibonacci(int n)
 {
-    num_calls++;
+    num_calls++; // Incrementa contador a cada chamada da função
 
+    // Casos base da recursão
     if (n == 0)
     {
-        return 0;
+        return 0; // fib(0) = 0
     }
     if (n == 1)
     {
-        return 1;
+        return 1; // fib(1) = 1
     }
 
+    // Caso recursivo: fib(n) = fib(n-1) + fib(n-2)
+    // Esta linha gera duas chamadas recursivas, criando uma árvore de recursão
     return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
@@ -61,9 +79,12 @@ int main()
         int X;
         cin >> X;
 
+        // Reinicia o contador para cada novo caso de teste
+        // Inicia com -1 porque a primeira chamada não conta (conforme exemplo)
         num_calls = -1;
         int result = fibonacci(X);
 
+        // Imprime o resultado no formato solicitado
         cout << "fib(" << X << ") = " << num_calls << " calls = " << result << endl;
     }
 

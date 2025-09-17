@@ -34,13 +34,22 @@ A=70685.7750
 
 using namespace std;
 
-int main() {
-    double raio;
-    double pi = 3.14159;
-    cin >> raio;
+int main()
+{
+    // ALGORITMO: Cálculo da área de um círculo
+    // Fórmula: área = π × raio²
+    // Onde π é aproximadamente 3.14159
 
+    double raio;
+    double pi = 3.14159; // Constante π definida pelo problema
+    cin >> raio;         // Lê o valor do raio
+
+    // Calcula a área usando a fórmula matemática
+    // pow(raio, 2) eleva o raio ao quadrado
     double area = pi * pow(raio, 2);
 
+    // Imprime o resultado com 4 casas decimais de precisão
+    // fixed e setprecision(4) garantem a formatação correta
     cout << "A=" << fixed << setprecision(4) << area << endl;
 
     return 0;

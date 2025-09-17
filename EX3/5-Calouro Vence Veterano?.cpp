@@ -31,6 +31,25 @@ Exemplo de Saída
 #include <string>
 using namespace std;
 
+/*
+ * ALGORITMO: Contagem de Inversões em Array de Strings usando Merge Sort
+ *
+ * Problema: Contar quantos pares (i,j) existem onde i < j mas m[i] > m[j]
+ * (matrícula na posição i é lexicograficamente maior que na posição j)
+ *
+ * Solução: Mesmo algoritmo de contagem de inversões do problema anterior,
+ * mas adaptado para trabalhar com strings em vez de inteiros.
+ *
+ * Uma inversão indica que um aluno com matrícula "mais nova" (maior valor)
+ * está classificado antes de um aluno com matrícula "mais antiga" (menor valor).
+ *
+ * Complexidade: O(n log n)
+ */
+
+/*
+ * Função que mescla duas metades ordenadas de strings e conta inversões
+ * Funciona igual ao merge sort tradicional, mas compara strings lexicograficamente
+ */
 long long mergeAndCount(vector<string> &arr, vector<string> &temp, int left, int mid, int right)
 {
     int i = left;    // Índice para a metade esquerda
@@ -38,23 +57,28 @@ long long mergeAndCount(vector<string> &arr, vector<string> &temp, int left, int
     int k = left;    // Índice para o array temporário
     long long inv_count = 0;
 
-    // Mescla as duas metades contando inversões
+    // Mescla as duas metades ordenadas contando inversões
     while (i <= mid && j <= right)
     {
+        // Comparação lexicográfica de strings
         if (arr[i] <= arr[j])
         {
+            // String da esquerda é menor ou igual - sem inversão
             temp[k++] = arr[i++];
         }
         else
         {
+            // String da direita é menor - temos inversões!
             temp[k++] = arr[j++];
-            // Quando arr[i] > arr[j], temos inversões
-            // arr[i] é maior que todos os elementos restantes da metade esquerda
+
+            // CHAVE: quando arr[i] > arr[j], todas as strings de i até mid
+            // também são maiores que arr[j], pois a metade esquerda está ordenada
+            // Logo, temos (mid - i + 1) inversões
             inv_count += (mid - i + 1);
         }
     }
 
-    // Copia elementos restantes
+    // Copia elementos restantes (já estão ordenados)
     while (i <= mid)
     {
         temp[k++] = arr[i++];
@@ -73,17 +97,29 @@ long long mergeAndCount(vector<string> &arr, vector<string> &temp, int left, int
     return inv_count;
 }
 
+/*
+ * Merge Sort recursivo modificado para contar inversões em strings
+ * Divide o array em duas metades, conta inversões em cada metade,
+ * depois conta inversões entre as metades durante o merge
+ */
 long long mergeSortAndCount(vector<string> &arr, vector<string> &temp, int left, int right)
 {
     long long inv_count = 0;
+
     if (left < right)
     {
         int mid = left + (right - left) / 2;
 
+        // Conta inversões na metade esquerda
         inv_count += mergeSortAndCount(arr, temp, left, mid);
+
+        // Conta inversões na metade direita
         inv_count += mergeSortAndCount(arr, temp, mid + 1, right);
+
+        // Conta inversões entre as duas metades
         inv_count += mergeAndCount(arr, temp, left, mid, right);
     }
+
     return inv_count;
 }
 
@@ -95,16 +131,18 @@ int main()
     {
         vector<string> matriculas(n);
 
-        // Lê as matrículas
+        // Lê as matrículas dos alunos na ordem de classificação
         for (int i = 0; i < n; i++)
         {
             cin >> matriculas[i];
         }
 
-        // Cria array temporário para merge sort
+        // Array temporário para o merge sort
         vector<string> temp(n);
 
-        // Conta inversões usando merge sort
+        // Conta o número total de inversões
+        // Cada inversão representa um caso onde um calouro (matrícula maior)
+        // está classificado antes de um veterano (matrícula menor)
         long long inversions = mergeSortAndCount(matriculas, temp, 0, n - 1);
 
         cout << inversions << endl;

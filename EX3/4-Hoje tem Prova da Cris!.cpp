@@ -48,6 +48,24 @@ chegado thadeu wanderley
 #include <algorithm>
 using namespace std;
 
+/*
+ * ALGORITMO: Ordenação Gulosa com Número Limitado de Trocas
+ *
+ * Problema: Dado um array de strings e um número máximo k de trocas entre
+ * elementos adjacentes, encontrar a menor sequência lexicograficamente possível.
+ *
+ * Estratégia Gulosa:
+ * Para cada posição do array (da esquerda para a direita):
+ * 1. Encontra o menor elemento lexicograficamente que pode ser movido
+ *    para esta posição com as trocas restantes
+ * 2. Move esse elemento para a posição atual usando bubble sort
+ * 3. Atualiza o número de trocas restantes
+ *
+ * Complexidade: O(n²) onde n é o número de elementos
+ * A estratégia gulosa funciona porque priorizamos colocar os menores
+ * elementos nas posições mais à esquerda primeiro.
+ */
+
 int main()
 {
     int n, k;
@@ -63,27 +81,32 @@ int main()
             cin >> names[i];
         }
 
-        int swaps_used = 0;
+        int swaps_used = 0; // Contador de trocas utilizadas
 
-        // Algoritmo guloso: para cada posição, tenta colocar o menor nome possível
+        // ALGORITMO GULOSO: para cada posição, coloca o menor elemento possível
         for (int pos = 0; pos < n && swaps_used < k; pos++)
         {
-            // Encontra o menor nome que pode ser movido para esta posição
+            // Encontra o menor nome que pode ser movido para a posição atual
+            // Limitado pelo número de trocas restantes: só pode ir até
+            // pos + (k - swaps_used) posições à frente
             int best_idx = pos;
             for (int i = pos + 1; i < n && i <= pos + (k - swaps_used); i++)
             {
+                // Compara lexicograficamente e atualiza se encontrar um menor
                 if (names[i] < names[best_idx])
                 {
                     best_idx = i;
                 }
             }
 
-            // Move o menor nome para a posição atual usando bubble sort
+            // Move o menor nome encontrado para a posição atual
+            // Usa bubble sort: faz trocas adjacentes até chegar na posição
             while (best_idx > pos && swaps_used < k)
             {
+                // Troca elementos adjacentes
                 swap(names[best_idx], names[best_idx - 1]);
-                best_idx--;
-                swaps_used++;
+                best_idx--;   // Atualiza posição do elemento
+                swaps_used++; // Contabiliza a troca
             }
         }
 

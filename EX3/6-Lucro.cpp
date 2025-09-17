@@ -41,6 +41,28 @@ Exemplo de Saída
 #include <algorithm>
 using namespace std;
 
+/*
+ * ALGORITMO DE KADANE: Maximum Subarray Problem
+ *
+ * Problema: George quer maximizar o lucro do seu circo escolhendo uma
+ * sequência contígua de dias para operar na cidade.
+ *
+ * Transformação do problema:
+ * - Para cada dia, calcula-se o lucro líquido = receita - custo_por_dia
+ * - O problema se torna: encontrar o subarray contíguo de maior soma
+ * - Se a maior soma for negativa, é melhor não operar (lucro = 0)
+ *
+ * Algoritmo de Kadane:
+ * - Percorre o array mantendo a soma máxima terminando na posição atual
+ * - A cada posição, decide se "continua" o subarray ou "reinicia"
+ * - Mantém o registro da maior soma encontrada até agora
+ *
+ * Complexidade: O(n) tempo, O(1) espaço - extremamente eficiente!
+ *
+ * Intuição: Se a soma acumulada se torna negativa, é melhor descartar
+ * os dias anteriores e começar um novo período a partir do dia atual.
+ */
+
 int main()
 {
     int n;
@@ -54,20 +76,31 @@ int main()
         vector<int> lucroLiquido(n);
 
         // Lê as receitas e calcula o lucro líquido por dia
+        // lucro_liquido[i] = receita[i] - custo_por_dia
         for (int i = 0; i < n; i++)
         {
             cin >> receitas[i];
             lucroLiquido[i] = receitas[i] - custoPorDia;
         }
 
-        // Algoritmo de Kadane para Maximum Subarray Sum
-        int maxLucro = 0; // Pode escolher 0 dias (lucro = 0)
-        int lucroAtual = 0;
+        // ALGORITMO DE KADANE para Maximum Subarray Sum
+        int maxLucro = 0;   // Pode escolher 0 dias (não operar)
+        int lucroAtual = 0; // Soma do subarray terminando na posição atual
 
         for (int i = 0; i < n; i++)
         {
-            lucroAtual = max(0, lucroAtual + lucroLiquido[i]);
+            // Decisão chave: continuar o subarray atual ou começar novo?
+            // Se lucroAtual + lucroLiquido[i] < lucroLiquido[i],
+            // é melhor começar um novo subarray a partir do dia i
+            lucroAtual = max(lucroLiquido[i], lucroAtual + lucroLiquido[i]);
+
+            // Atualiza o lucro máximo encontrado até agora
             maxLucro = max(maxLucro, lucroAtual);
+
+            // Versão equivalente mais explícita:
+            // lucroAtual += lucroLiquido[i];
+            // if (lucroAtual < 0) lucroAtual = 0;  // Reinicia se ficar negativo
+            // maxLucro = max(maxLucro, lucroAtual);
         }
 
         cout << maxLucro << endl;
